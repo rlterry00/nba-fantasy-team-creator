@@ -11,13 +11,15 @@ import {
   Modal,
   Image,
   TextInput,
+  Alert,
 } from 'react-native';
 
 const App = () => {
   const [playersList, setPlayersList] = useState([]);
+  const [filteredPlayersList, setFilteredPlayersList] = useState([]);
   const [playersVisible, setPlayersVisible] = useState(false);
   const [teamSetUp, setTeamSetUp] = useState(false);
-  const [useDefaultImage, setUseDefaultImage] = useState(false);
+  const [useDefaultImage, setUseDefaultImage] = useState(true);
   const [defaultImage, setDefaultImage] = useState('./assets/avatar.png');
   const [teamName, setTeamName] = useState('');
   const [cityName, setCityName] = useState('');
@@ -38,32 +40,70 @@ const App = () => {
     getPlayersList();
   }, []);
 
+  const addPlayers = (
+    personId,
+    playerImage,
+    playerPosition,
+    firstName,
+    lastName,
+  ) => {
+    if (teamRoster.filter(x => x.personId === personId).length > 0) {
+      Alert.alert('Player already chosen');
+    } else if (
+      teamRoster.filter(x => x.playerPosition === playerPosition).length > 0
+    ) {
+      Alert.alert(
+        'You already have player in that position on your team. Remove previous player first.',
+      );
+    } else {
+      return teamRoster.push({
+        personId: personId,
+        playerImage: playerImage,
+        playerPosition: playerPosition,
+        firstName: firstName,
+        lastName: lastName,
+      });
+    }
+  };
+
+  const removePlayer = personId => {
+    var rosterList = teamRoster.filter(x => {
+      return x.personId !== personId;
+    });
+    console.log(rosterList);
+    setTeamRoster(rosterList);
+  };
+
+  const filterPlayers = playerPosition => {
+    var playerList = playersList.filter(x => {
+      return x.teamSitesOnly.posFull === playerPosition;
+    });
+    setFilteredPlayersList(playerList);
+  };
+
   const ListItem = ({item}) => {
+    const personId = item.personId;
     const playerImage =
       'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/' +
-      item.personId +
+      personId +
       '.png';
-
+    const playerPosition = item.teamSitesOnly.posFull;
+    const firstName = item.firstName;
+    const lastName = item.lastName;
     return (
       <View style={styles.listContainer}>
         <View>
           <Image
             style={{width: 100, height: 100, marginLeft: 5}}
             defaultSource={require('./assets/avatar.png')}
-            source={
-              useDefaultImage
-                ? require('./assets/avatar.png')
-                : {uri: playerImage}
-            }
+            source={{uri: playerImage}}
             resizeMode="cover"
           />
           <View style={styles.nameRow}>
-            <Text style={styles.nameTitle}>{item.firstName}</Text>
-            <Text style={styles.nameTitle}>{item.lastName}</Text>
+            <Text style={styles.nameTitle}>{firstName}</Text>
+            <Text style={styles.nameTitle}>{lastName}</Text>
           </View>
-          <Text style={styles.listItem}>
-            Position: {item.teamSitesOnly.posFull}
-          </Text>
+          <Text style={styles.listItem}>Position: {playerPosition}</Text>
           <Text style={styles.listItem}>
             Date of Birth: {item.dateOfBirthUTC}
           </Text>
@@ -86,8 +126,59 @@ const App = () => {
           </Text>
           <View style={styles.button}>
             <Button
-              onPress={() => console.log('pressed')}
+              onPress={() => {
+                addPlayers(
+                  personId,
+                  playerImage,
+                  playerPosition,
+                  firstName,
+                  lastName,
+                ),
+                  setPlayersVisible(false);
+              }}
               title="Add Player"
+              color="black"
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const rosterList = ({item}) => {
+    const personId = item.personId;
+    const playerImage = item.playerImage;
+    const playerPosition = item.playerPosition;
+    const firstName = item.firstName;
+    const lastName = item.lastName;
+    return (
+      <View style={styles.listContainer}>
+        <View>
+          <View style={styles.titleViewRowRoster}>
+            <Text style={styles.sectionTitle}>{cityName}</Text>
+            <Text style={styles.sectionTitle}>{teamName}</Text>
+          </View>
+          <Text style={styles.sectionTitle}>Position: {playerPosition}</Text>
+          <View style={styles.nameRow}>
+            <Image
+              style={{width: 100, height: 100, marginLeft: 5}}
+              defaultSource={require('./assets/avatar.png')}
+              source={
+                useDefaultImage
+                  ? require('./assets/avatar.png')
+                  : {uri: playerImage}
+              }
+              resizeMode="cover"
+            />
+
+            <Text style={styles.sectionTitle}>{firstName}</Text>
+            <Text style={styles.sectionTitle}>{lastName}</Text>
+          </View>
+
+          <View style={styles.button}>
+            <Button
+              onPress={() => removePlayer(personId)}
+              title="Remove Player"
               color="black"
             />
           </View>
@@ -115,7 +206,11 @@ const App = () => {
           </View>
           <View style={styles.button}>
             <Button
-              onPress={() => setPlayersVisible(true)}
+              onPress={() =>
+                teamName && cityName
+                  ? setPlayersVisible(true)
+                  : Alert.alert('Please choose team city and name first')
+              }
               title="Select Players"
               color="black"
             />
@@ -126,6 +221,12 @@ const App = () => {
           </View>
           <Text style={styles.sectionTitle}>Roster:</Text>
         </View>
+        <FlatList
+          data={teamRoster}
+          renderItem={rosterList}
+          keyExtractor={item => item.personId}
+          horizontal={true}
+        />
       </View>
       <View>
         <Modal
@@ -144,8 +245,49 @@ const App = () => {
               onPress={() => setPlayersVisible(!playersVisible)}>
               <Text style={styles.exitText}>Exit</Text>
             </TouchableOpacity>
+            <View style={styles.titleView}>
+              <Text style={styles.sectionTitle}>Filter By Position:</Text>
+            </View>
+            <View style={styles.titleViewRow}>
+              <TouchableOpacity
+                style={styles.titleView}
+                onPress={() => {
+                  var position = 'Forward';
+                  filterPlayers(position);
+                }}>
+                <Text style={styles.positionText}>Forward</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.titleView}
+                onPress={() => {
+                  var position = 'Forward-Center';
+                  filterPlayers(position);
+                }}>
+                <Text style={styles.positionText}>Forward-Center</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.titleView}
+                onPress={() => {
+                  var position = 'Center';
+                  filterPlayers(position);
+                }}>
+                <Text style={styles.positionText}>Center</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.titleView}
+                onPress={() => {
+                  var position = 'Guard';
+                  filterPlayers(position);
+                }}>
+                <Text style={styles.positionText}>Guard</Text>
+              </TouchableOpacity>
+            </View>
             <FlatList
-              data={playersList}
+              data={
+                filteredPlayersList.length > 0
+                  ? filteredPlayersList
+                  : playersList
+              }
               renderItem={ListItem}
               keyExtractor={item => item.personId}
               horizontal={false}
@@ -217,13 +359,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  titleViewRowRoster: {
+    flexDirection: 'row',
+  },
   title: {
     fontSize: 30,
   },
   sectionTitle: {
     fontSize: 25,
     marginRight: 5,
-    marginTop: 10
+    marginLeft: 5,
+    marginTop: 10,
   },
   nameRow: {
     flexDirection: 'row',
@@ -245,6 +391,11 @@ const styles = StyleSheet.create({
   exitText: {
     color: 'blue',
     fontSize: 15,
+  },
+  positionText: {
+    color: 'blue',
+    fontSize: 15,
+    marginRight: 5,
   },
   inputStyle: {
     borderBottomWidth: 1,
