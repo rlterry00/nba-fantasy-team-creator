@@ -10,9 +10,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
-    "jest-environment-enzyme": "^7.1.2",
-    "jest-enzyme": "^7.1.2",
     "react": "17.0.2",
     "react-native": "0.66.4"
   },
