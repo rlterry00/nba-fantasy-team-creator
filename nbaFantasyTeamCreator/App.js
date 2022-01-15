@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import PlayerList from './components/PlayerList';
+import RosterList from './components/RosterList';
 
 const App = props => {
   const [playersList, setPlayersList] = useState([]);
@@ -127,34 +128,15 @@ const App = props => {
     const firstName = item.firstName;
     const lastName = item.lastName;
     return (
-      <View style={styles.listContainer}>
-        <View>
-          <View style={styles.titleViewRowRoster}>
-            <Text style={styles.sectionTitle}>{cityName}</Text>
-            <Text style={styles.sectionTitle}>{teamName}</Text>
-          </View>
-          <Text style={styles.sectionTitle}>Position: {playerPosition}</Text>
-          <View style={styles.nameRow}>
-            <Image
-              style={{width: 100, height: 100, marginLeft: 5}}
-              defaultSource={require('./assets/avatar.png')}
-              source={{uri: playerImage}}
-              resizeMode="cover"
-            />
-
-            <Text style={styles.sectionTitle}>{firstName}</Text>
-            <Text style={styles.sectionTitle}>{lastName}</Text>
-          </View>
-
-          <View style={styles.button}>
-            <Button
-              onPress={() => removePlayer(personId)}
-              title="Remove Player"
-              color="black"
-            />
-          </View>
-        </View>
-      </View>
+      <RosterList
+        cityName={cityName}
+        teamName={teamName}
+        playerPosition={playerPosition}
+        playerImage={playerImage}
+        firstName={firstName}
+        lastName={lastName}
+        onPress={() => removePlayer(personId)}
+      />
     );
   };
 
