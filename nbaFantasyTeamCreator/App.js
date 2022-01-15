@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -13,8 +12,9 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import PlayerList from './components/PlayerList';
 
-const App = () => {
+const App = props => {
   const [playersList, setPlayersList] = useState([]);
   const [filteredPlayersList, setFilteredPlayersList] = useState([]);
   const [playersVisible, setPlayersVisible] = useState(false);
@@ -81,7 +81,7 @@ const App = () => {
     setFilteredPlayersList(playerList);
   };
 
-  const ListItem = ({item}) => {
+  const playerList = ({item}) => {
     const personId = item.personId;
     const playerImage =
       'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/' +
@@ -91,57 +91,32 @@ const App = () => {
     const firstName = item.firstName;
     const lastName = item.lastName;
     return (
-      <View style={styles.listContainer}>
-        <View>
-          <Image
-            style={{width: 100, height: 100, marginLeft: 5}}
-            defaultSource={require('./assets/avatar.png')}
-            source={{uri: playerImage}}
-            resizeMode="cover"
-          />
-          <View style={styles.nameRow}>
-            <Text style={styles.nameTitle}>{firstName}</Text>
-            <Text style={styles.nameTitle}>{lastName}</Text>
-          </View>
-          <Text style={styles.listItem}>Position: {playerPosition}</Text>
-          <Text style={styles.listItem}>
-            Date of Birth: {item.dateOfBirthUTC}
-          </Text>
-          <Text style={styles.listItem}>
-            Height: {item.heightFeet} Feet {item.heightInches} Inches
-          </Text>
-          <Text style={styles.listItem}>Weight: {item.weightPounds} lb</Text>
-          <Text style={styles.listItem}>College: {item.collegeName}</Text>
-          <Text style={styles.listItem}>
-            NBA Debut Year: {item.nbaDebutYear}
-          </Text>
-          <Text style={styles.listItem}>
-            Draft Pick Number: {item.draft.pickNum}
-          </Text>
-          <Text style={styles.listItem}>
-            Draft Round Number: {item.draft.roundNum}
-          </Text>
-          <Text style={styles.listItem}>
-            Draft Season Year: {item.draft.seasonYear}
-          </Text>
-          <View style={styles.button}>
-            <Button
-              onPress={() => {
-                addPlayers(
-                  personId,
-                  playerImage,
-                  playerPosition,
-                  firstName,
-                  lastName,
-                ),
-                  setPlayersVisible(false);
-              }}
-              title="Add Player"
-              color="black"
-            />
-          </View>
-        </View>
-      </View>
+      <PlayerList
+        personId={personId}
+        playerPosition={playerPosition}
+        firstName={firstName}
+        lastName={lastName}
+        dateOfBirth={item.dateOfBirthUTC}
+        heightFeet={item.heightFeet}
+        heightInches={item.heightInches}
+        weightPounds={item.weightPounds}
+        collegeName={item.collegeName}
+        nbaDebutYear={item.nbaDebutYear}
+        draftPickNum={item.draft.pickNum}
+        draftRoundNum={item.draft.roundNum}
+        draftSeasonYear={item.draft.seasonYear}
+        onPress={() => {
+          addPlayers(
+            personId,
+            playerImage,
+            playerPosition,
+            firstName,
+            lastName,
+          );
+          setPlayersVisible(false);
+          console.log(playerImage);
+        }}
+      />
     );
   };
 
@@ -163,11 +138,7 @@ const App = () => {
             <Image
               style={{width: 100, height: 100, marginLeft: 5}}
               defaultSource={require('./assets/avatar.png')}
-              source={
-                useDefaultImage
-                  ? require('./assets/avatar.png')
-                  : {uri: playerImage}
-              }
+              source={{uri: playerImage}}
               resizeMode="cover"
             />
 
@@ -288,7 +259,7 @@ const App = () => {
                   ? filteredPlayersList
                   : playersList
               }
-              renderItem={ListItem}
+              renderItem={playerList}
               keyExtractor={item => item.personId}
               horizontal={false}
             />
