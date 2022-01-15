@@ -46,6 +46,7 @@ exports[`matches snapshot 1`] = `
             "fontSize": 20,
           }
         }
+        testID="firstName"
       />
       <Text
         style={

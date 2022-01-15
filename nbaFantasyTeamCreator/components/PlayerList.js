@@ -17,7 +17,9 @@ const PlayerList = props => {
           resizeMode="cover"
         />
         <View style={styles.nameRow}>
-          <Text style={styles.nameTitle}>{props.firstName}</Text>
+          <Text style={styles.nameTitle} testID="firstName">
+            {props.firstName}
+          </Text>
           <Text style={styles.nameTitle}>{props.lastName}</Text>
         </View>
         <Text style={styles.listItem}>Position: {props.playerPosition}</Text>
@@ -43,14 +45,6 @@ const PlayerList = props => {
           <Button
             onPress={() => {
               props.onPress();
-              //   addPlayers(
-              //     personId,
-              //     playerImage,
-              //     playerPosition,
-              //     firstName,
-              //     lastName,
-              //   );
-              //   setPlayersVisible(false);
             }}
             title="Add Player"
             color="black"
