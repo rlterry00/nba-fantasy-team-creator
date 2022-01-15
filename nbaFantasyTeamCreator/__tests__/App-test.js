@@ -14,6 +14,6 @@ it('renders correctly', () => {
 });
 
 test('matches snapshot', () => {
-  const tree = renderer.create(<App />).toJSON();
-  expect(tree).toMatchSnapshot();
+  const app = renderer.create(<App />).toJSON();
+  expect(app).toMatchSnapshot();
 });
