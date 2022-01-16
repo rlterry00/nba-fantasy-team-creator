@@ -461,6 +461,38 @@ exports[`matches snapshot 1`] = `
             </Text>
           </View>
         </View>
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          nativeID="animatedComponent"
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "opacity": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "blue",
+                "fontSize": 15,
+                "marginRight": 5,
+              }
+            }
+          >
+            Reset
+          </Text>
+        </View>
         <RCTScrollView
           data={Array []}
           getItem={[Function]}
