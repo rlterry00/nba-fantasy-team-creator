@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Button,
   Modal,
-  Image,
   TextInput,
   Alert,
 } from 'react-native';
@@ -26,12 +25,12 @@ const App = props => {
   const [cityName, setCityName] = useState('');
   const [teamRoster, setTeamRoster] = useState([]);
   useEffect(() => {
+    //Fetching inital player list
     const getPlayersList = async () => {
       return fetch('https://data.nba.net/10s/prod/v1/2021/players.json')
         .then(response => response.json())
         .then(json => {
           const data = json.league.sacramento;
-          // console.log(data);
           setPlayersList(data);
         })
         .catch(error => {
@@ -235,6 +234,13 @@ const App = props => {
                 <Text style={styles.positionText}>Guard</Text>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity
+              style={styles.titleView}
+              onPress={() => {
+                setFilteredPlayersList([]);
+              }}>
+              <Text style={styles.positionText}>Reset</Text>
+            </TouchableOpacity>
             <FlatList
               data={
                 filteredPlayersList.length > 0
