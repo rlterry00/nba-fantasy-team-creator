@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -40,47 +40,59 @@ const App = props => {
     getPlayersList();
   }, []);
 
-  const addPlayers = (
-    personId,
-    playerImage,
-    playerPosition,
-    firstName,
-    lastName,
-  ) => {
-    if (teamRoster.filter(x => x.personId === personId).length > 0) {
-      Alert.alert('Player already chosen');
-    } else if (
-      teamRoster.filter(x => x.playerPosition === playerPosition).length > 0
-    ) {
-      Alert.alert(
-        'You already have player in that position on your team. Remove previous player first.',
-      );
-    } else {
-      return teamRoster.push({
-        personId: personId,
-        playerImage: playerImage,
-        playerPosition: playerPosition,
-        firstName: firstName,
-        lastName: lastName,
+  //handlers
+  const openPlayersList = useCallback(() => {
+    teamName && cityName
+      ? setPlayersVisible(true)
+      : Alert.alert('Please choose team city and name first');
+  }, [teamName, cityName]);
+
+  //player crud fuctions
+  const addPlayers = useCallback(
+    (personId, playerImage, playerPosition, firstName, lastName) => {
+      if (teamRoster.filter(x => x.personId === personId).length > 0) {
+        Alert.alert('Player already chosen');
+      } else if (
+        teamRoster.filter(x => x.playerPosition === playerPosition).length > 0
+      ) {
+        Alert.alert(
+          'You already have player in that position on your team. Remove previous player first.',
+        );
+      } else {
+        return teamRoster.push({
+          personId: personId,
+          playerImage: playerImage,
+          playerPosition: playerPosition,
+          firstName: firstName,
+          lastName: lastName,
+        });
+      }
+    },
+    [teamRoster],
+  );
+
+  const removePlayer = useCallback(
+    personId => {
+      var rosterList = teamRoster.filter(x => {
+        return x.personId !== personId;
       });
-    }
-  };
+      console.log(rosterList);
+      setTeamRoster(rosterList);
+    },
+    [teamRoster],
+  );
 
-  const removePlayer = personId => {
-    var rosterList = teamRoster.filter(x => {
-      return x.personId !== personId;
-    });
-    console.log(rosterList);
-    setTeamRoster(rosterList);
-  };
+  const filterPlayers = useCallback(
+    playerPosition => {
+      var playerList = playersList.filter(x => {
+        return x.teamSitesOnly.posFull === playerPosition;
+      });
+      setFilteredPlayersList(playerList);
+    },
+    [playersList],
+  );
 
-  const filterPlayers = playerPosition => {
-    var playerList = playersList.filter(x => {
-      return x.teamSitesOnly.posFull === playerPosition;
-    });
-    setFilteredPlayersList(playerList);
-  };
-
+  //child player and roster components
   const playerList = ({item}) => {
     const personId = item.personId;
     const playerImage =
@@ -158,11 +170,7 @@ const App = props => {
           </View>
           <View style={styles.button}>
             <Button
-              onPress={() =>
-                teamName && cityName
-                  ? setPlayersVisible(true)
-                  : Alert.alert('Please choose team city and name first')
-              }
+              onPress={() => openPlayersList()}
               title="Select Players"
               color="black"
             />
@@ -204,32 +212,28 @@ const App = props => {
               <TouchableOpacity
                 style={styles.titleView}
                 onPress={() => {
-                  var position = 'Forward';
-                  filterPlayers(position);
+                  filterPlayers('Forward');
                 }}>
                 <Text style={styles.positionText}>Forward</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.titleView}
                 onPress={() => {
-                  var position = 'Forward-Center';
-                  filterPlayers(position);
+                  filterPlayers('Forward-Center');
                 }}>
                 <Text style={styles.positionText}>Forward-Center</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.titleView}
                 onPress={() => {
-                  var position = 'Center';
-                  filterPlayers(position);
+                  filterPlayers('Center');
                 }}>
                 <Text style={styles.positionText}>Center</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.titleView}
                 onPress={() => {
-                  var position = 'Guard';
-                  filterPlayers(position);
+                  filterPlayers('Guard');
                 }}>
                 <Text style={styles.positionText}>Guard</Text>
               </TouchableOpacity>

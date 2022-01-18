@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {StyleSheet, Text, View, Button, Image} from 'react-native';
 
 const PlayerList = props => {
