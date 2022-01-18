@@ -50,10 +50,11 @@ const App = props => {
   //player crud fuctions
   const addPlayers = useCallback(
     (personId, playerImage, playerPosition, firstName, lastName) => {
-      if (teamRoster.filter(x => x.personId === personId).length > 0) {
+      if (teamRoster.filter(item => item.personId === personId).length > 0) {
         Alert.alert('Player already chosen');
       } else if (
-        teamRoster.filter(x => x.playerPosition === playerPosition).length > 0
+        teamRoster.filter(item => item.playerPosition === playerPosition)
+          .length > 0
       ) {
         Alert.alert(
           'You already have player in that position on your team. Remove previous player first.',
@@ -73,8 +74,8 @@ const App = props => {
 
   const removePlayer = useCallback(
     personId => {
-      var rosterList = teamRoster.filter(x => {
-        return x.personId !== personId;
+      var rosterList = teamRoster.filter(item => {
+        return item.personId !== personId;
       });
       console.log(rosterList);
       setTeamRoster(rosterList);
@@ -84,8 +85,8 @@ const App = props => {
 
   const filterPlayers = useCallback(
     playerPosition => {
-      var playerList = playersList.filter(x => {
-        return x.teamSitesOnly.posFull === playerPosition;
+      var playerList = playersList.filter(item => {
+        return item.teamSitesOnly.posFull === playerPosition;
       });
       setFilteredPlayersList(playerList);
     },

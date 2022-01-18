@@ -17,3 +17,15 @@ test('matches snapshot', () => {
   const app = renderer.create(<App />).toJSON();
   expect(app).toMatchSnapshot();
 });
+
+describe('Open avaliable players list', () => {
+  test('no team or city created', () => {
+    const teamName = '';
+    const cityName = '';
+    var setPlayersVisible = false;
+    teamName && cityName
+      ? (setPlayersVisible = true)
+      : console.log('Please choose team city and name first');
+    expect(setPlayersVisible).toEqual(false);
+  });
+});
