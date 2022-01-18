@@ -28,4 +28,22 @@ describe('Open avaliable players list', () => {
       : console.log('Please choose team city and name first');
     expect(setPlayersVisible).toEqual(false);
   });
+  test('team name created but no city name', () => {
+    const teamName = 'Hornets';
+    const cityName = '';
+    var setPlayersVisible = false;
+    teamName && cityName
+      ? (setPlayersVisible = true)
+      : console.log('Please choose team city and name first');
+    expect(setPlayersVisible).toEqual(false);
+  });
+  test('team name and city name created', () => {
+    const teamName = 'Hornets';
+    const cityName = 'Charlotte';
+    var setPlayersVisible = false;
+    teamName && cityName
+      ? (setPlayersVisible = true)
+      : console.log('Please choose team city and name first');
+    expect(setPlayersVisible).toEqual(true);
+  });
 });
