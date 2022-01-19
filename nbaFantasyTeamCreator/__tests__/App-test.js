@@ -77,3 +77,34 @@ describe('Input validation of team name and city name not to be empty before sub
     expect(teamSetUp).toEqual(true);
   });
 });
+
+describe('Exiting team creation screen with various input situations', () => {
+  test('no team or city input', () => {
+    const teamName = '';
+    const cityName = '';
+    var teamSetUp = true;
+
+    teamName.length === 0 && cityName.length === 0
+      ? (teamSetUp = false)
+      : console.log('City name and team name can not be empty');
+    expect(teamSetUp).toEqual(false);
+  });
+  test('team name created but no city name', () => {
+    const teamName = 'Hornets';
+    const cityName = '';
+    var teamSetUp = false;
+    teamName.length && cityName.length
+      ? (teamSetUp = true)
+      : console.log('City name and team name can not be empty');
+    expect(teamSetUp).toEqual(false);
+  });
+  test('team name and city name created', () => {
+    const teamName = 'Hornets';
+    const cityName = 'Charlotte';
+    var teamSetUp = false;
+    teamName.length && cityName.length
+      ? (teamSetUp = true)
+      : console.log('City name and team name can not be empty');
+    expect(teamSetUp).toEqual(true);
+  });
+});
