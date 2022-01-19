@@ -7,19 +7,34 @@ const PlayerList = props => {
     'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/' +
     personId +
     '.png';
-  var defaultImage = false;
 
   return (
     <View style={styles.listContainer}>
       <View>
-        <Image
-          style={styles.image}
-          onError={() => props.onError()}
-          onLoadEnd={() => props.onLoadEnd()}
-          defaultSource={require('../assets/avatar.png')}
-          source={props.choosenImage}
-          resizeMode="cover"
-        />
+        {props.isLoaded ? (
+          <Image
+            style={styles.image}
+            defaultSource={require('../assets/avatar.png')}
+            source={{uri: playerImage}}
+            onLoadEnd={() => {
+              props.onLoadEnd();
+            }}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            style={styles.image}
+            defaultSource={require('../assets/avatar.png')}
+            source={require('../assets/avatar.png')}
+            onError={() => {
+              props.onError();
+            }}
+            onLoadEnd={() => {
+              props.onLoadEnd();
+            }}
+            resizeMode="cover"
+          />
+        )}
         <View style={styles.nameRow}>
           <Text style={styles.nameTitle} testID="firstName">
             {props.firstName}

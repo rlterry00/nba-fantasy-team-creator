@@ -19,10 +19,8 @@ const App = props => {
   const [filteredPlayersList, setFilteredPlayersList] = useState([]);
   const [playersVisible, setPlayersVisible] = useState(false);
   const [teamSetUp, setTeamSetUp] = useState(false);
-  const [useDefaultImage, setUseDefaultImage] = useState(true);
-  // const [defaultImage, setDefaultImage] = useState(
-  //   require('./assets/avatar.png'),
-  // );
+  const [isError, setIsError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [teamName, setTeamName] = useState('');
   const [cityName, setCityName] = useState('');
   const [teamRoster, setTeamRoster] = useState([]);
@@ -117,7 +115,10 @@ const App = props => {
     const playerPosition = item.teamSitesOnly.posFull;
     const firstName = item.firstName;
     const lastName = item.lastName;
-
+    const chosenImage =
+      !isError && isLoaded
+        ? {uri: playerImage}
+        : require('./assets/avatar.png');
     return (
       <PlayerList
         personId={personId}
@@ -133,7 +134,15 @@ const App = props => {
         draftPickNum={item.draft.pickNum}
         draftRoundNum={item.draft.roundNum}
         draftSeasonYear={item.draft.seasonYear}
-        choosenImage={{uri: playerImage}}
+        isLoaded={isLoaded}
+        onError={() => {
+          setIsLoaded(false);
+          setIsError(true);
+        }}
+        onLoadEnd={() => {
+          setIsLoaded(true);
+          setIsError(false);
+        }}
         onPress={() => {
           addPlayers(
             personId,
