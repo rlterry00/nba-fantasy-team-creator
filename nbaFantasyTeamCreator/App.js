@@ -117,8 +117,7 @@ const App = props => {
     const playerPosition = item.teamSitesOnly.posFull;
     const firstName = item.firstName;
     const lastName = item.lastName;
-    const defaultImage = require('./assets/avatar.png');
-    var choosenImage = useDefaultImage ? defaultImage : {uri: playerImage};
+
     return (
       <PlayerList
         personId={personId}
@@ -134,9 +133,7 @@ const App = props => {
         draftPickNum={item.draft.pickNum}
         draftRoundNum={item.draft.roundNum}
         draftSeasonYear={item.draft.seasonYear}
-        onError={() => setUseDefaultImage(true)}
-        onLoadEnd={() => setUseDefaultImage(true)}
-        choosenImage={choosenImage}
+        choosenImage={{uri: playerImage}}
         onPress={() => {
           addPlayers(
             personId,
