@@ -14,8 +14,8 @@ const PlayerList = props => {
       <View>
         <Image
           style={styles.image}
-          onError={props.onError()}
-          onLoadEnd={props.onLoadEnd()}
+          onError={() => props.onError()}
+          onLoadEnd={() => props.onLoadEnd()}
           defaultSource={require('../assets/avatar.png')}
           source={props.choosenImage}
           resizeMode="cover"

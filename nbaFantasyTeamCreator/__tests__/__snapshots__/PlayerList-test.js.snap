@@ -16,12 +16,9 @@ exports[`matches snapshot 1`] = `
           "testUri": "../../../assets/avatar.png",
         }
       }
+      onError={[Function]}
+      onLoadEnd={[Function]}
       resizeMode="cover"
-      source={
-        Object {
-          "uri": "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/undefined.png",
-        }
-      }
       style={
         Object {
           "height": 100,
