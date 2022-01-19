@@ -7,13 +7,17 @@ const PlayerList = props => {
     'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/' +
     personId +
     '.png';
+  var defaultImage = false;
+
   return (
     <View style={styles.listContainer}>
       <View>
         <Image
-          style={{width: 100, height: 100, marginLeft: 5}}
+          style={styles.image}
+          onError={props.onError()}
+          onLoadEnd={props.onLoadEnd()}
           defaultSource={require('../assets/avatar.png')}
-          source={{uri: playerImage}}
+          source={props.choosenImage}
           resizeMode="cover"
         />
         <View style={styles.nameRow}>
@@ -76,6 +80,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'gainsboro',
     borderRadius: 15,
     margin: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginLeft: 5,
   },
 });
 export default PlayerList;

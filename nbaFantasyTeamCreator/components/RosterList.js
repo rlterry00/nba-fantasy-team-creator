@@ -14,7 +14,7 @@ const RosterList = props => {
         </Text>
         <View style={styles.nameRow}>
           <Image
-            style={{width: 100, height: 100, marginLeft: 5}}
+            style={styles.image}
             defaultSource={require('../assets/avatar.png')}
             source={{uri: props.playerImage}}
             resizeMode="cover"
@@ -63,6 +63,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'gainsboro',
     borderRadius: 15,
     margin: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginLeft: 5,
   },
 });
 export default RosterList;

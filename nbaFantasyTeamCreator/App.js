@@ -20,7 +20,9 @@ const App = props => {
   const [playersVisible, setPlayersVisible] = useState(false);
   const [teamSetUp, setTeamSetUp] = useState(false);
   const [useDefaultImage, setUseDefaultImage] = useState(true);
-  const [defaultImage, setDefaultImage] = useState('./assets/avatar.png');
+  // const [defaultImage, setDefaultImage] = useState(
+  //   require('./assets/avatar.png'),
+  // );
   const [teamName, setTeamName] = useState('');
   const [cityName, setCityName] = useState('');
   const [teamRoster, setTeamRoster] = useState([]);
@@ -103,6 +105,8 @@ const App = props => {
     const playerPosition = item.teamSitesOnly.posFull;
     const firstName = item.firstName;
     const lastName = item.lastName;
+    const defaultImage = require('./assets/avatar.png');
+    var choosenImage = useDefaultImage ? defaultImage : {uri: playerImage};
     return (
       <PlayerList
         personId={personId}
@@ -118,6 +122,9 @@ const App = props => {
         draftPickNum={item.draft.pickNum}
         draftRoundNum={item.draft.roundNum}
         draftSeasonYear={item.draft.seasonYear}
+        onError={() => setUseDefaultImage(true)}
+        onLoadEnd={() => setUseDefaultImage(true)}
+        choosenImage={choosenImage}
         onPress={() => {
           addPlayers(
             personId,
