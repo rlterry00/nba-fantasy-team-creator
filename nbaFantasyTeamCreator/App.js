@@ -49,7 +49,19 @@ const App = props => {
       : Alert.alert('Please choose team city and name first');
   }, [teamName, cityName]);
 
-  //player crud fuctions
+  const submitTeam = useCallback(() => {
+    teamName && cityName
+      ? setTeamSetUp(!teamSetUp)
+      : Alert.alert('City name and team name can not be empty');
+  }, [teamSetUp, teamName, cityName]);
+
+  const exitTeamCreation = useCallback(() => {
+    setTeamSetUp(!teamSetUp);
+    setCityName('');
+    setTeamName('');
+  }, [teamSetUp]);
+
+  //player crud fuctionscharlo
   const addPlayers = useCallback(
     (personId, playerImage, playerPosition, firstName, lastName) => {
       if (teamRoster.filter(item => item.personId === personId).length > 0) {
@@ -278,7 +290,7 @@ const App = props => {
             </View>
             <TouchableOpacity
               style={styles.titleView}
-              onPress={() => setTeamSetUp(!teamSetUp)}>
+              onPress={() => exitTeamCreation()}>
               <Text style={styles.exitText}>Exit</Text>
             </TouchableOpacity>
             <Text style={styles.sectionTitle}>Team City: {cityName}</Text>
@@ -298,7 +310,7 @@ const App = props => {
 
             <View style={styles.button}>
               <Button
-                onPress={() => setTeamSetUp(!teamSetUp)}
+                onPress={() => submitTeam()}
                 title="Submit"
                 color="black"
               />

@@ -47,3 +47,33 @@ describe('Open avaliable players list', () => {
     expect(setPlayersVisible).toEqual(true);
   });
 });
+
+describe('Input validation of team name and city name not to be empty before submiting', () => {
+  test('no team or city created', () => {
+    const teamName = '';
+    const cityName = '';
+    var teamSetUp = false;
+    teamName && cityName
+      ? (teamSetUp = true)
+      : console.log('City name and team name can not be empty');
+    expect(teamSetUp).toEqual(false);
+  });
+  test('team name created but no city name', () => {
+    const teamName = 'Hornets';
+    const cityName = '';
+    var teamSetUp = false;
+    teamName && cityName
+      ? (teamSetUp = true)
+      : console.log('City name and team name can not be empty');
+    expect(teamSetUp).toEqual(false);
+  });
+  test('team name and city name created', () => {
+    const teamName = 'Hornets';
+    const cityName = 'Charlotte';
+    var teamSetUp = false;
+    teamName && cityName
+      ? (teamSetUp = true)
+      : console.log('City name and team name can not be empty');
+    expect(teamSetUp).toEqual(true);
+  });
+});
