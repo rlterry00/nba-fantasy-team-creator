@@ -11,7 +11,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import PlayerList from './components/PlayerList';
+import {HigherOrderPlayerList} from './components/HigherOrderPlayerList';
 import RosterList from './components/RosterList';
 
 const App = props => {
@@ -20,7 +20,7 @@ const App = props => {
   const [playersVisible, setPlayersVisible] = useState(false);
   const [teamSetUp, setTeamSetUp] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   const [teamName, setTeamName] = useState('');
   const [cityName, setCityName] = useState('');
   const [teamRoster, setTeamRoster] = useState([]);
@@ -59,7 +59,7 @@ const App = props => {
     setTeamName('');
   }, [teamSetUp]);
 
-  //player crud fuctionscharlo
+  //player crud fuctions
   const addPlayers = useCallback(
     (personId, playerImage, playerPosition, firstName, lastName) => {
       if (teamRoster.filter(item => item.personId === personId).length > 0) {
@@ -115,12 +115,9 @@ const App = props => {
     const playerPosition = item.teamSitesOnly.posFull;
     const firstName = item.firstName;
     const lastName = item.lastName;
-    const chosenImage =
-      !isError && isLoaded
-        ? {uri: playerImage}
-        : require('./assets/avatar.png');
+
     return (
-      <PlayerList
+      <HigherOrderPlayerList
         personId={personId}
         playerPosition={playerPosition}
         firstName={firstName}
@@ -134,15 +131,6 @@ const App = props => {
         draftPickNum={item.draft.pickNum}
         draftRoundNum={item.draft.roundNum}
         draftSeasonYear={item.draft.seasonYear}
-        isLoaded={isLoaded}
-        onError={() => {
-          setIsLoaded(false);
-          setIsError(true);
-        }}
-        onLoadEnd={() => {
-          setIsLoaded(true);
-          setIsError(false);
-        }}
         onPress={() => {
           addPlayers(
             personId,
@@ -334,6 +322,7 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     marginLeft: 5,
     marginRight: 5,
+    backgroundColor: 'white',
   },
   listContainer: {
     flex: 1,
@@ -353,12 +342,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
+    color: 'black',
   },
   sectionTitle: {
     fontSize: 25,
     marginRight: 5,
     marginLeft: 5,
     marginTop: 10,
+    color: 'black',
   },
   nameRow: {
     flexDirection: 'row',
@@ -368,6 +359,7 @@ const styles = StyleSheet.create({
   },
   nameTitle: {
     fontSize: 20,
+    color: 'black',
   },
   listItem: {
     marginLeft: 10,
@@ -390,6 +382,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     margin: 10,
     height: 40,
+    color: 'black',
   },
 });
 export default App;

@@ -1,7 +1,8 @@
-import React, {useMemo} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View, Button, Image} from 'react-native';
 
 const PlayerList = props => {
+  // const [isLoaded, setIsLoaded] = useState(false);
   const personId = props.personId;
   const playerImage =
     'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/' +
@@ -16,8 +17,8 @@ const PlayerList = props => {
             style={styles.image}
             defaultSource={require('../assets/avatar.png')}
             source={{uri: playerImage}}
-            onLoadEnd={() => {
-              props.onLoadEnd();
+            onError={() => {
+              props.onError();
             }}
             resizeMode="cover"
           />
@@ -26,12 +27,6 @@ const PlayerList = props => {
             style={styles.image}
             defaultSource={require('../assets/avatar.png')}
             source={require('../assets/avatar.png')}
-            onError={() => {
-              props.onError();
-            }}
-            onLoadEnd={() => {
-              props.onLoadEnd();
-            }}
             resizeMode="cover"
           />
         )}
@@ -87,9 +82,11 @@ const styles = StyleSheet.create({
   },
   nameTitle: {
     fontSize: 20,
+    color: 'black',
   },
   listItem: {
     marginLeft: 10,
+    color: 'black',
   },
   button: {
     backgroundColor: 'gainsboro',

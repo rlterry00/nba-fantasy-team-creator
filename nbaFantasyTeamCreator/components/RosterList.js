@@ -46,12 +46,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
+    color: 'black',
   },
   sectionTitle: {
     fontSize: 25,
     marginRight: 5,
     marginLeft: 5,
     marginTop: 10,
+    color: 'black',
   },
   nameRow: {
     flexDirection: 'row',
