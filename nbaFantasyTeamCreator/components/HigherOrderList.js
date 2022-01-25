@@ -8,7 +8,6 @@ const HOC = Component => {
     return (
       <Component
         isLoaded={isLoaded}
-        onLoad={() => setIsLoaded(true)}
         onError={() => setIsLoaded(false)}
         {...props}
       />
