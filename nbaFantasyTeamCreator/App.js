@@ -11,7 +11,10 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import {HigherOrderPlayerList} from './components/HigherOrderPlayerList';
+import {
+  HigherOrderPlayerList,
+  HigherOrderRosterList,
+} from './components/HigherOrderList';
 import RosterList from './components/RosterList';
 
 const App = props => {
@@ -153,7 +156,7 @@ const App = props => {
     const firstName = item.firstName;
     const lastName = item.lastName;
     return (
-      <RosterList
+      <HigherOrderRosterList
         cityName={cityName}
         teamName={teamName}
         playerPosition={playerPosition}

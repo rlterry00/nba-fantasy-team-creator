@@ -13,12 +13,24 @@ const RosterList = props => {
           Position: {props.playerPosition}
         </Text>
         <View style={styles.nameRow}>
-          <Image
-            style={styles.image}
-            defaultSource={require('../assets/avatar.png')}
-            source={{uri: props.playerImage}}
-            resizeMode="cover"
-          />
+          {props.isLoaded ? (
+            <Image
+              style={styles.image}
+              defaultSource={require('../assets/avatar.png')}
+              source={{uri: props.playerImage}}
+              onError={() => {
+                props.onError();
+              }}
+              resizeMode="cover"
+            />
+          ) : (
+            <Image
+              style={styles.image}
+              defaultSource={require('../assets/avatar.png')}
+              source={require('../assets/avatar.png')}
+              resizeMode="cover"
+            />
+          )}
 
           <Text style={styles.sectionTitle}>{props.firstName}</Text>
           <Text style={styles.sectionTitle}>{props.lastName}</Text>

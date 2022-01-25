@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import PlayerList from './PlayerList';
+import RosterList from './RosterList';
 
 const HOC = Component => {
   const WithStateComponent = props => {
@@ -17,3 +18,4 @@ const HOC = Component => {
 };
 
 export const HigherOrderPlayerList = HOC(PlayerList);
+export const HigherOrderRosterList = HOC(RosterList);
