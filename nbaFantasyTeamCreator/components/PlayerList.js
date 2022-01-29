@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, Button, Image} from 'react-native';
+import DefaultSourceImage from './DefaultSourceImage';
 
 const PlayerList = props => {
   // const [isLoaded, setIsLoaded] = useState(false);
@@ -12,7 +13,7 @@ const PlayerList = props => {
   return (
     <View style={styles.listContainer}>
       <View>
-        {props.isLoaded ? (
+        {/* {props.isLoaded ? (
           <Image
             style={styles.image}
             defaultSource={require('../assets/avatar.png')}
@@ -29,7 +30,13 @@ const PlayerList = props => {
             source={require('../assets/avatar.png')}
             resizeMode="cover"
           />
-        )}
+        )} */}
+        <DefaultSourceImage
+          imageStyle={styles.image}
+          defaultSourceImg={require('../assets/avatar.png')}
+          sourceImg={{uri: playerImage}}
+          resizeMode="cover"
+        />
         <View style={styles.nameRow}>
           <Text style={styles.nameTitle} testID="firstName">
             {props.firstName}

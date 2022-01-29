@@ -15,6 +15,7 @@ import {
   HigherOrderPlayerList,
   HigherOrderRosterList,
 } from './components/HigherOrderList';
+import PlayerList from './components/PlayerList';
 import RosterList from './components/RosterList';
 
 const App = props => {
@@ -120,7 +121,7 @@ const App = props => {
     const lastName = item.lastName;
 
     return (
-      <HigherOrderPlayerList
+      <PlayerList
         personId={personId}
         playerPosition={playerPosition}
         firstName={firstName}
